@@ -1,0 +1,32 @@
+:root {
+    --color-1: #DF752A;
+    --color-2: #E2AF82;
+    --color-3: #EBD2AE;
+    --color-4: #A2BD93;
+    --color-5: #437343;
+    --color-6: #1B2E20;
+    --color-7: #F9BC61;
+    --color-8: #F7F3F5;
+    --color-9: #E14E4F;
+}
+
+@font-face {
+    font-family: 'SourceSansPro';
+    src: url('/fonts/SourceSansPro-Regular.ttf') format('ttf');
+    font-weight: 400;
+}
+@font-face {
+    font-family: 'SourceSansPro';
+    src: url('/fonts/SourceSansPro-Italic.ttf') format('ttf');
+    font-style: italic;
+    font-weight: 400;
+}
+
+body {
+    background: var(--color-5);
+    
+}
+
+h1 {
+    font-family: 'SourceSansPro';
+}

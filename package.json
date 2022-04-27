@@ -1,0 +1,28 @@
+{
+  "name": "cash-cash-money",
+  "version": "1.0.0",
+  "description": "changelog: -2022-03-30 Zach",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/slashncode/cash-cash-money.git"
+  },
+  "keywords": [
+    "moneeeeeeten"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/slashncode/cash-cash-money/issues"
+  },
+  "homepage": "https://github.com/slashncode/cash-cash-money#readme",
+  "dependencies": {
+    "better-sqlite3": "^7.5.1",
+    "ejs": "^3.1.7",
+    "email-validator": "^2.0.4",
+    "express": "^4.18.0"
+  }
+}
