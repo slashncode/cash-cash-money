@@ -1,5 +1,5 @@
 :root {
-    --color-1: #DF752A;
+    /*--color-1: #DF752A;
     --color-2: #E2AF82;
     --color-3: #EBD2AE;
     --color-4: #A2BD93;
@@ -7,7 +7,13 @@
     --color-6: #1B2E20;
     --color-7: #F9BC61;
     --color-8: #F7F3F5;
-    --color-9: #E14E4F;
+    --color-9: #E14E4F;*/
+
+    --color-1: #FFFFF3;
+    --color-2: #C6FFC6;
+    --color-3: #FF9798;
+    --color-4: #ECECEC;
+    --color-5: #F7F7F3;
 }
 
 @font-face {
