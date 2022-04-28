@@ -1,8 +1,7 @@
 const express = require('express');
-const ensureLogIn = require('connect-ensure-login').ensureLoggedIn;
+const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
 const db = require('../db');
 const router = express.Router();
-const ensureLoggedIn = ensureLogIn();
 
 function fetchData(req, res, next) {
     /**
@@ -25,6 +24,18 @@ router.get(
     // fetchData,
     function (req, res, next) {
         res.render('app', { user: req.user });
+    }
+);
+
+// GET settings page
+router.get(
+    '/einstellungen',
+    // if user is not logged in, save request to /einstellungen,
+    // send user to /login and after he logs in send user
+    // back to /einstellungen
+    ensureLoggedIn('/login'),
+    function (req, res, next) {
+        res.render('einstellungen', { user: req.user });
     }
 );
 
