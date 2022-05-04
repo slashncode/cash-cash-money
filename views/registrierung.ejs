@@ -8,35 +8,39 @@
     <title>Cash Cash Money</title>
     <link href="/css/style.css" rel="stylesheet">
 </head>
-    <body>
-        
-        <header>
-                <!-- provide header trough js-->
-        </header>
 
-        <div class="register-box">
-            <form action="/registrierung" class="register-form" method="POST">
-                    <label for="username">Benutzername:</label>
-                    <input type="text" id="username" name="username" >
-                </br>
-                    <label for="firstname">Vorname:</label>
-                    <input type="text" id="firstname" name="firstname">
-                </br>
-                    <label for="lastname">Nachname:</label>
-                    <input type="text" id="lastname" name="lastname">
-                </br>
-                    <label for="email">Mailadresse:</label>
-                    <input type="email" id="email" name="email">
-                </br>
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name="password">
-                </br>
-                    <label for="passwordcheck">Password wiederholen:</label>
-                    <input type="password" id="passwordcheck" name="passwordcheck">
-                </br>
-                    <input type="submit" value="Registrieren" class="button" />  
-            </form>
-        </div>
+<body>
 
-    </body>
+    <header>
+           
+        <!-- provide header trough js-->
+    </header>
+
+    <div class="register-box">
+        <form action="/registrierung" class="register-form" method="POST">
+            <label for="username">Benutzername:</label>
+            <input type="text" id="username" name="username">
+            </br>
+            <label for="firstname">Vorname:</label>
+            <input type="text" id="firstname" name="firstname">
+            </br>
+            <label for="lastname">Nachname:</label>
+            <input type="text" id="lastname" name="lastname">
+            </br>
+            <label for="email">Mailadresse:</label>
+            <input type="email" id="email" name="email">
+            </br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password">
+            </br>
+            <label for="passwordcheck">Password wiederholen:</label>
+            <input type="password" id="passwordcheck" name="passwordcheck">
+            </br>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <input type="submit" value="Registrieren" class="button" />
+        </form>
+    </div>
+
+</body>
+
 </html>

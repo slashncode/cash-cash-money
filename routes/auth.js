@@ -125,7 +125,7 @@ router.get('/registrierung', function (req, res, next) {
     res.render('registrierung');
 });
 
-/* POST /anmeldung
+/* POST /registrierung
  *
  * Creates new user account.
  * Form input validation.

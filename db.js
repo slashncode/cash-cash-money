@@ -20,7 +20,7 @@ bdb.prepare(
       )'
 ).run();
 
-// create an initial user (email: admin@cashcashmoney.de, password: root)
+// create an initial user (user: admin, email: admin@cashcashmoney.de, password: root)
 // use a randomly generated 'salt' for en-/decoding the password
 // password will be with node.js' crypto-function
 // pbkdf2Sync -> hashes the given string with the algorithm "sha256" 310000x times
