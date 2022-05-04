@@ -165,6 +165,7 @@
 
 body {
     background-color: var(--color-6);
+    margin:0px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -267,3 +268,24 @@ p, a {
     flex-direction: column;
     justify-content: space-evenly;
 }
+
+.header-logo {
+    width: 80px;
+    height: 50px;
+    background-image: url(/images/piggyLogo.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    float: left;
+}
+
+.header{
+    background-color: var(--color-7);
+    padding: 10px;
+}
+
+
+h2{
+    text-align: center;
+}
+
+
