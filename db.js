@@ -11,6 +11,7 @@ const bdb = new bettersqlite3('var/db/data.db', { verbose: console.log });
 // create users table if it doesn't exist yet
 bdb.prepare(
     'CREATE TABLE IF NOT EXISTS users ( \
+      username TEXT, \
       email TEXT UNIQUE, \
       hashed_password BLOB, \
       salt BLOB, \
@@ -26,8 +27,9 @@ bdb.prepare(
 // with the given salt and is 32 characters long
 const salt = crypto.randomBytes(16);
 bdb.prepare(
-    'INSERT OR IGNORE INTO users (email, hashed_password, salt, firstname, lastname) VALUES (?, ?, ?, ?, ?)'
+    'INSERT OR IGNORE INTO users (username, email, hashed_password, salt, firstname, lastname) VALUES (?, ?, ?, ?, ?, ?)'
 ).run([
+    'admin',
     'admin@cashcashmoney.de',
     crypto.pbkdf2Sync('root', salt, 310000, 32, 'sha256'),
     salt,
