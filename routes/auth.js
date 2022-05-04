@@ -107,11 +107,11 @@ router.post(
     })
 );
 
-/* POST /logout
+/* GET /logout
  *
  * Logs the user out.
  */
-router.post('/logout', function (req, res, next) {
+router.get('/logout', function (req, res, next) {
     req.logout();
     res.redirect('/');
 });
