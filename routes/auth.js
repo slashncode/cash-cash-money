@@ -27,17 +27,17 @@ const validPassword =
 passport.use(
     new LocalStrategy(
         {
-            usernameField: 'email',
+            usernameField: 'username',
             passwordField: 'password',
         },
-        function verify(email, password, cb) {
+        function verify(username, password, cb) {
             let user = bdb
-                .prepare('SELECT rowid AS id, * FROM users WHERE email = ?')
-                .get([`${email}`]);
+                .prepare('SELECT rowid AS id, * FROM users WHERE username = ?')
+                .get([`${username}`]);
 
             if (user == undefined) {
                 return cb(null, false, {
-                    message: 'Inkorrekte E-Mail oder Passwort.',
+                    message: 'Inkorrekter Benutzername oder Passwort.',
                 });
             }
 
@@ -58,7 +58,7 @@ passport.use(
                         )
                     ) {
                         return cb(null, false, {
-                            message: 'Inkorrekte E-Mail oder Passwort.',
+                            message: 'Inkorrekter Benutzername oder Passwort.',
                         });
                     }
                     return cb(null, user);
@@ -133,6 +133,7 @@ router.get('/registrierung', function (req, res, next) {
  */
 router.post('/registrierung', function (req, res, next) {
     if (
+        req.body.username == undefined ||
         req.body.email == undefined ||
         req.body.password == undefined ||
         req.body.passwordcheck == undefined ||
@@ -141,6 +142,10 @@ router.post('/registrierung', function (req, res, next) {
     ) {
         res.render('registrierung', {
             error: 'Fülle alle Felder aus.',
+        });
+    } else if (req.body.username.length < 3) {
+        res.render('registrierung', {
+            error: 'Gebe mindestens 4 Zeichen für deinen Benutzernamen ein.',
         });
     } else if (!validator.validate(req.body.email)) {
         res.render('registrierung', {
@@ -177,8 +182,9 @@ router.post('/registrierung', function (req, res, next) {
                     }
                     try {
                         bdb.prepare(
-                            'INSERT INTO users (email, hashed_password, salt, firstname, lastname) VALUES (?, ?, ?, ?, ?)'
+                            'INSERT INTO users (username, email, hashed_password, salt, firstname, lastname) VALUES (?, ?, ?, ?, ?, ?)'
                         ).run([
+                            req.body.username,
                             req.body.email,
                             hashedPassword,
                             salt,
