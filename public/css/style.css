@@ -85,7 +85,6 @@
     font-style: italic;
     font-weight: 900;
 }
-
 @font-face {
     font-family: 'JosefinSans';
     src: url('/fonts/JosefinSans-Thin.ttf') format('truetype');
@@ -165,7 +164,7 @@
 }
 
 body {
-    background-color: var(--color-1);
+    background-color: var(--color-6);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -236,4 +235,35 @@ p, a {
 .button:hover {
     background-color: #89b489;
     border: 4px solid #547e54;
+}
+
+
+.login-box {
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.login-form {
+    font-family: 'SourceSansPro';
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.register-box {
+    display: flex;
+    flex-direction: column;
+    height: 500px;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.register-form {
+    font-family: 'SourceSansPro';
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
