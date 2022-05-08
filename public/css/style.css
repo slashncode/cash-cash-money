@@ -13,7 +13,7 @@
     --color-2: #C6FFC6;
     --color-3: #FF9798;
     --color-4: #ECECEC;
-    --color-5: #F7F7F3;
+    --color-5: #F7F3F5;
     --color-6: #e5fee5;
     --color-7: #a7daa7;
     --color-8: #6b9f6b;
@@ -267,3 +267,76 @@ p, a {
     flex-direction: column;
     justify-content: space-evenly;
 }
+
+.app {
+    margin: 0;
+    background-color: var(--color-1);
+}
+
+.data-container {
+    width: 100vw;
+}
+
+.data-month {
+    display: flex;
+    height: 29px;
+    background-color: var(--color-5);
+    align-items: flex-end;
+    padding-left: 24px;
+    margin: 12px 0 8px;
+}
+
+.data-month h2 {
+    font-size: 23px;
+    margin: 0;
+    font-weight: 300;
+}
+
+.data-entry {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 24px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.data-entry p {
+    margin: 0;
+}
+
+.data-entry-inner {
+    display: flex;
+    justify-content: space-between;
+}
+
+.data-entry--positive {
+    background-color: var(--color-2);
+}
+
+.data-entry--negative {
+    background-color: var(--color-3);
+}
+
+.data-entry--editing {
+
+}
+
+p.data-date {
+    font-size: 13px;
+    line-height: 16px;
+}
+
+.data-name {
+    font-size: 23px;
+    line-height: 29px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding-right: 8px;
+}
+
+.data-amount {
+    font-size: 23px;
+    line-height: 29px;
+}
+
+
