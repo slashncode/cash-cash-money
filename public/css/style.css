@@ -269,23 +269,28 @@ p, a {
     justify-content: space-evenly;
 }
 
+/*Header for all logged in sites*/
+
+.header{
+    background-color: var(--color-7);
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .header-logo {
     width: 80px;
     height: 50px;
     background-image: url(/images/piggyLogo.png);
     background-size: contain;
     background-repeat: no-repeat;
-    float: left;
 }
 
-.header{
-    background-color: var(--color-7);
-    padding: 10px;
+.burgermenu{
+    width: 50px;
+    height: 50px;
+    background-color: black;
 }
-
-
-h2{
-    text-align: center;
-}
-
 
