@@ -350,7 +350,7 @@ p, a {
     height: 100%; /* 100% Full-height */
     width: 0; /* 0 width - change this with JavaScript */
     position: fixed; /* Stay in place */
-    top: 80px; /* leave space for header */
+    top: 75px; /* leave space for header */
     right: 0;
     background-color: var(--color-7); /* Black*/
     overflow-x: hidden; /* Disable horizontal scroll */
@@ -379,3 +379,25 @@ p, a {
     right: 30px;
     position: absolute;
   }
+
+  /*Settings*/
+  .settings-box {
+    display: flex;
+    flex-direction: column;
+    height: 600px;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.settings-form {
+    font-family: 'SourceSansPro';
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.settings label {
+    font-family: 'SourceSansPro';
+    font-size: 22px;
+    font-weight: 600;
+}

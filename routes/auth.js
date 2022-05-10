@@ -134,6 +134,15 @@ router.get('/index', function (req, res, next) {
     res.render('index');
 });
 
+/* GET /settings
+ *
+ * Directs the user to the settings page
+ *
+ */
+router.get('/settings', function (req, res, next) {
+    res.render('settings');
+});
+
 /* POST /registrierung
  *
  * Creates new user account.
