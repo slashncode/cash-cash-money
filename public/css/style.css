@@ -372,15 +372,12 @@ p.data-date {
 .app-button-box {
     display: flex;
     flex-direction: row;
-    height: 58px;
     align-items: center;
     justify-content: space-evenly;
-    position: relative;
-    top: -620px;
+    padding: 0 0 16px;
 }
 
-.app-button-green {
-    background-color:var(--color-2);
+.app-button {
     color: black;
     text-align: center;
     font-size: 22px;
@@ -395,21 +392,12 @@ p.data-date {
     text-decoration: none;
     justify-content: center;
 }
-.app-button-red {
+.app-button--green {
+    background-color:var(--color-2);
+}
+ 
+.app-button--red {
     background-color:var(--color-3);
-    color: black;
-    text-align: center;
-    font-size: 22px;
-    cursor: pointer;
-    display: flex;
-    font-weight: 600;
-    border-radius: 2px;
-    width: 168px;
-    font-family: 'SourceSansPro';
-    height: 38px;
-    line-height: 38px;
-    text-decoration: none;
-    justify-content: center;
 }
 
 .calendar {
@@ -438,13 +426,10 @@ p.data-date {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    position: relative;
-    top: -615px;
 }
 
 .sophie-branch {
-    position: relative;
-    top: 60px;
+    margin: 30px 0;
 }
 .register-form label {
     font-family: 'SourceSansPro';
