@@ -40,3 +40,24 @@ router.get(
 );
 
 module.exports = router;
+
+router.get(
+    '/app',
+    function (req, res) {
+        res.render('app')
+    }
+)
+
+router.get(
+    '/eingaben',
+    function (req, res) {
+        res.render('eingaben')
+    }
+)
+
+router.get(
+    '/ausgaben',
+    function (req, res) {
+        res.render('ausgaben')
+    }
+)
