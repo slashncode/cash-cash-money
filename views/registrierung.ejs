@@ -11,10 +11,8 @@
 
 <body>
 
-    <header>
-           
-        <!-- provide header trough js-->
-    </header>
+    <!-- provide header through js-->
+    <%- include('./templates/header_unlogged.ejs')%>
 
     <% if (typeof(error) != "undefined" ) { %>
         <p>Error: <%= error%></p>
@@ -23,25 +21,25 @@
     <div class="register-box">
         <form action="/registrierung" class="register-form" method="POST">
             <label for="username">Benutzername:</label>
-            <input type="text" id="username" name="username">
+            <input type="text" id="username" name="username" class="form-input">
             
             <label for="firstname">Vorname:</label>
-            <input type="text" id="firstname" name="firstname">
+            <input type="text" id="firstname" name="firstname" class="form-input">
             
             <label for="lastname">Nachname:</label>
-            <input type="text" id="lastname" name="lastname">
+            <input type="text" id="lastname" name="lastname" class="form-input">
             
             <label for="email">Mailadresse:</label>
-            <input type="email" id="email" name="email">
+            <input type="email" id="email" name="email" class="form-input">
            
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password">
+            <input type="password" id="password" name="password" class="form-input">
            
             <label for="passwordcheck">Password wiederholen:</label>
-            <input type="password" id="passwordcheck" name="passwordcheck">
+            <input type="password" id="passwordcheck" name="passwordcheck" class="form-input">
 
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <input type="submit" value="Registrieren" class="button" />
+            <input type="submit" value="Registrieren" class="loginbutton" />
         </form>
     </div>
 

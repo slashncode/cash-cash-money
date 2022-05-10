@@ -125,6 +125,15 @@ router.get('/registrierung', function (req, res, next) {
     res.render('registrierung');
 });
 
+/* GET /index
+ *
+ * Directs the user to the start page
+ *
+ */
+router.get('/index', function (req, res, next) {
+    res.render('index');
+});
+
 /* POST /registrierung
  *
  * Creates new user account.
