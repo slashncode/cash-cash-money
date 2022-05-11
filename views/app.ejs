@@ -10,69 +10,67 @@
 </head>
 
 <body class="app">
-    <header>
-        <div class="logo"></div>
-        <div class="burger"></div>
-    </header>
+    <%- include('./templates/header.ejs')%>
 
-    <div class="sophie-branch">
-        <div class="app-button-box">
-            <a href="/eingaben" class="app-button app-button--green">Eingaben</a>
-            <a href="/ausgaben" class="app-button app-button--red">Ausgaben</a>
+
+        <div class="sophie-branch">
+            <div class="app-button-box">
+                <a href="/eingaben" class="app-button app-button--green">Eingaben</a>
+                <a href="/ausgaben" class="app-button app-button--red">Ausgaben</a>
+            </div>
+
+            <div class="app-top">
+                <div class="calendar">
+                    <img src="/images/calendar.png" alt="Kalender">
+                </div>
+                <button type="button" class="app-button-months"></button>
+                <button type="button" class="app-button-months"></button>
+            </div>
         </div>
 
-        <div class="app-top">
-            <div class="calendar">
-                <img src="/images/calendar.png" alt="Kalender">
+        <div class="data-container">
+            <div class="data-month">
+                <h2>April</h2>
             </div>
-            <button type="button" class="app-button-months"></button>
-            <button type="button" class="app-button-months"></button>
-        </div>
-    </div>
-
-    <div class="data-container">
-        <div class="data-month">
-            <h2>April</h2>
-        </div>
-        <div class="data-entry data-entry--positive">
-            <p class="data-date">25.03.2022</p>
-            <div class="data-entry-inner">
-                <p class="data-name">Taschengeld</p>
-                <p class="data-amount">25,90€</p>
+            <div class="data-entry data-entry--positive">
+                <p class="data-date">25.03.2022</p>
+                <div class="data-entry-inner">
+                    <p class="data-name">Taschengeld</p>
+                    <p class="data-amount">25,90€</p>
+                </div>
             </div>
-        </div>
-        <div class="data-entry data-entry--positive">
-            <p class="data-date">25.03.2022</p>
-            <div class="data-entry-inner">
-                <p class="data-name">Eventim Rückzahlung und langer Text</p>
-                <p class="data-amount">41,00€</p>
+            <div class="data-entry data-entry--positive">
+                <p class="data-date">25.03.2022</p>
+                <div class="data-entry-inner">
+                    <p class="data-name">Eventim Rückzahlung und langer Text</p>
+                    <p class="data-amount">41,00€</p>
+                </div>
             </div>
-        </div>
-        <div class="data-entry data-entry--negative">
-            <p class="data-date">25.03.2022</p>
-            <div class="data-entry-inner">
-                <p class="data-name">Eventim Rückzahlung</p>
-                <p class="data-amount">41,00€</p>
+            <div class="data-entry data-entry--negative">
+                <p class="data-date">25.03.2022</p>
+                <div class="data-entry-inner">
+                    <p class="data-name">Eventim Rückzahlung</p>
+                    <p class="data-amount">41,00€</p>
+                </div>
             </div>
-        </div>
-        <div class="data-month">
-            <h2>März</h2>
-        </div>
-        <div class="data-entry data-entry--positive">
-            <p class="data-date">25.03.2022</p>
-            <div class="data-entry-inner">
-                <p class="data-name">Taschengeld</p>
-                <p class="data-amount">25,90€</p>
+            <div class="data-month">
+                <h2>März</h2>
             </div>
-        </div>
-        <div class="data-entry data-entry--negative data-entry--editing">
-            <p class="data-date">25.03.2022</p>
-            <div class="data-entry-inner">
-                <p class="data-name">Foodie Time</p>
-                <p class="data-amount">41,00€</p>
+            <div class="data-entry data-entry--positive">
+                <p class="data-date">25.03.2022</p>
+                <div class="data-entry-inner">
+                    <p class="data-name">Taschengeld</p>
+                    <p class="data-amount">25,90€</p>
+                </div>
+            </div>
+            <div class="data-entry data-entry--negative data-entry--editing">
+                <p class="data-date">25.03.2022</p>
+                <div class="data-entry-inner">
+                    <p class="data-name">Foodie Time</p>
+                    <p class="data-amount">41,00€</p>
+                </div>
             </div>
         </div>
-    </div>
 </body>
 
 </html>

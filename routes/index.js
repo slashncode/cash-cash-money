@@ -29,35 +29,26 @@ router.get(
 
 // GET settings page
 router.get(
-    '/einstellungen',
+    '/settings',
     // if user is not logged in, save request to /einstellungen,
     // send user to /login and after he logs in send user
     // back to /einstellungen
     ensureLoggedIn('/login'),
     function (req, res, next) {
-        res.render('einstellungen', { user: req.user });
+        res.render('settings', { user: req.user });
     }
 );
 
 module.exports = router;
 
-router.get(
-    '/app',
-    function (req, res) {
-        res.render('app')
-    }
-)
+router.get('/app', function (req, res) {
+    res.render('app');
+});
 
-router.get(
-    '/eingaben',
-    function (req, res) {
-        res.render('eingaben')
-    }
-)
+router.get('/eingaben', function (req, res) {
+    res.render('eingaben');
+});
 
-router.get(
-    '/ausgaben',
-    function (req, res) {
-        res.render('ausgaben')
-    }
-)
+router.get('/ausgaben', function (req, res) {
+    res.render('ausgaben');
+});

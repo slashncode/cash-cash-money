@@ -73,7 +73,12 @@ passport.use(
  */
 passport.serializeUser(function (user, cb) {
     process.nextTick(function () {
-        cb(null, { id: user.id, email: user.email, firstname: user.firstname });
+        cb(null, {
+            id: user.id,
+            email: user.email,
+            firstname: user.firstname,
+            lastname: user.lastname,
+        });
     });
 });
 
@@ -123,24 +128,6 @@ router.get('/logout', function (req, res, next) {
  */
 router.get('/registrierung', function (req, res, next) {
     res.render('registrierung');
-});
-
-/* GET /index
- *
- * Directs the user to the start page
- *
- */
-router.get('/index', function (req, res, next) {
-    res.render('index');
-});
-
-/* GET /settings
- *
- * Directs the user to the settings page
- *
- */
-router.get('/settings', function (req, res, next) {
-    res.render('settings');
 });
 
 /* POST /registrierung
@@ -217,6 +204,7 @@ router.post('/registrierung', function (req, res, next) {
                         id: this.lastID,
                         email: req.body.email,
                         firstname: req.body.firstname,
+                        lastname: req.body.lastname,
                     };
                     req.login(user, function (err) {
                         if (err) {
