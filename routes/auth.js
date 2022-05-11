@@ -230,4 +230,86 @@ router.post('/registrierung', function (req, res, next) {
     }
 });
 
+
+router.post('/change-settings', function (req, res, next) {
+    if (
+        req.body.username == undefined ||
+        req.body.email == undefined ||
+        req.body.password == undefined ||
+        req.body.passwordcheck == undefined ||
+        req.body.firstname == undefined ||
+        req.body.lastname == undefined
+    ) {
+        res.render('registrierung', {
+            error: 'Fülle alle Felder aus.',
+        });
+    } else if (req.body.username.length < 3) {
+        res.render('registrierung', {
+            error: 'Gebe mindestens 4 Zeichen für deinen Benutzernamen ein.',
+        });
+    } else if (!validator.validate(req.body.email)) {
+        res.render('registrierung', {
+            error: 'Gebe eine gültige Email ein.',
+        });
+    } else if (req.body.password !== req.body.passwordcheck) {
+        res.render('registrierung', {
+            error: 'Die Passwörter müssen übereinstimmen.',
+        });
+    } else if (!validPassword.test(req.body.password)) {
+        res.render('registrierung', {
+            error: 'Das Passwort muss mindestens aus jeweils 1 Groß-, Kleinbuchstaben, Sonderzeichen und Ziffern bestehen und mindestens 8 Zeichen lang sein.',
+        });
+    } else if (validator.validate(req.body.email)) {
+        let user = bdb
+            .prepare('SELECT email from users WHERE email = ?')
+            .get([`${req.body.email}`]);
+
+        if (user != undefined) {
+            res.render('registrierung', {
+                error: 'Es gibt bereis einen Account mit dieser E-Mail.',
+            });
+        } else {
+            const salt = crypto.randomBytes(16);
+            crypto.pbkdf2(
+                req.body.password,
+                salt,
+                310000,
+                32,
+                'sha256',
+                function (err, hashedPassword) {
+                    if (err) {
+                        return next(err);
+                    }
+                    try {
+                        bdb.prepare(
+                            'INSERT INTO users (username, email, hashed_password, salt, firstname, lastname) VALUES (?, ?, ?, ?, ?, ?)'
+                        ).run([
+                            req.body.username,
+                            req.body.email,
+                            hashedPassword,
+                            salt,
+                            req.body.firstname,
+                            req.body.lastname,
+                        ]);
+                    } catch (err) {
+                        return next(err);
+                    }
+
+                    const user = {
+                        id: this.lastID,
+                        email: req.body.email,
+                        firstname: req.body.firstname,
+                    };
+                    req.login(user, function (err) {
+                        if (err) {
+                            return next(err);
+                        }
+                        res.redirect('/');
+                    });
+                }
+            );
+        }
+    }
+});
+
 module.exports = router;

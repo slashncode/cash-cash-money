@@ -482,8 +482,8 @@ p.data-date {
 /*burger menu*/
 
 .burgermenu {
-    height: 100%; /* 100% Full-height */
-    width: 0; /* 0 width - change this with JavaScript */
+    height:calc(100vh - 80px); /* 100% Full-height */
+    width: 80vw; /* 0 width - change this with JavaScript */
     position: fixed; /* Stay in place */
     top: 75px; /* leave space for header */
     right: 0;
@@ -491,6 +491,13 @@ p.data-date {
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 30px; /* Place content 60px from the top */
     transition: 0.5s ease-in; /* 0.5 second transition effect to slide in the sidenav */
+    transform: translateX(80vw);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .burgermenu--active{
+      transform:translateX(0);
   }
 
   /* burger menu links */
@@ -504,15 +511,14 @@ p.data-date {
     text-align: center;
   }
 
+
   .settings{
     width: 40px;
     height: 40px;
     background-image: url(/images/settingsGear.png);
     background-size: contain;
     background-repeat: no-repeat;
-    bottom: 130px;
-    right: 30px;
-    position: absolute;
+    margin: auto 20px 20px auto;
   }
 
   /*Settings*/
