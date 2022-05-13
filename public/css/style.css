@@ -265,7 +265,7 @@ p, a {
     padding: 10px;
     margin-top: 5px;
     border: 2px solid var(--color-8);
-    border-radius:10px;
+    border-radius:2px;
 }
 
 .loginbutton {
@@ -343,10 +343,6 @@ p, a {
 
 .data-entry--negative {
     background-color: var(--color-3);
-}
-
-.data-entry--editing {
-
 }
 
 p.data-date {
@@ -542,3 +538,38 @@ p.data-date {
     font-size: 22px;
     font-weight: 600;
 }
+
+.entrybar {
+    width: 230px;
+    height: 47px;
+    background:var(--color-4);
+    border-radius: 2px;
+    border-style: none;
+}
+
+.entrybar-button {
+    width: 47px;
+    height: 47px;
+    border-radius: 2px;
+    border-style: none;
+    font-weight: 400;
+    font-size: 23px;
+    line-height: 29px;
+}
+
+.entrybar-button--positive {
+    background-color:var(--color-2);
+}
+
+.entrybar-button--negative{
+    background-color:var(--color-3);
+}
+
+.entry-div {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top:50px;
+    margin-bottom: 15px;
+}
+
