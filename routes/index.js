@@ -35,7 +35,7 @@ router.get(
     // back to /einstellungen
     ensureLoggedIn('/login'),
     function (req, res, next) {
-        res.render('settings', { user: req.user });
+        res.render('einstellungen', { user: req.user });
     }
 );
 

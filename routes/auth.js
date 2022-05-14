@@ -236,15 +236,15 @@ router.post('/change-settings', function (req, res, next) {
     ) {
       
    if (!validator.validate(req.body.email)) {
-        res.render('settings', {
+        res.render('einstellungen', {
             error: 'Gebe eine gültige Email ein.',
         });
     } else if (req.body.password !== req.body.passwordcheck) {
-        res.render('settings', {
+        res.render('einstellungen', {
             error: 'Die Passwörter müssen übereinstimmen.',
         });
     } else if (!validPassword.test(req.body.password)) {
-        res.render('settings', {
+        res.render('einstellungen', {
             error: 'Das Passwort muss mindestens aus jeweils 1 Groß-, Kleinbuchstaben, Sonderzeichen und Ziffern bestehen und mindestens 8 Zeichen lang sein.',
         });
     } else if (validator.validate(req.body.email)) {
@@ -253,7 +253,7 @@ router.post('/change-settings', function (req, res, next) {
             .get([`${req.body.email}`]);
 
         if (user != undefined) {
-            res.render('settings', {
+            res.render('einstellungen', {
                 error: 'Es gibt bereis einen Account mit dieser E-Mail.',
             });
         } else {
@@ -270,22 +270,30 @@ router.post('/change-settings', function (req, res, next) {
                     }
                     try {
                         bdb.prepare(
-                          
-                            'UPDATE users (username, email, hashed_password, salt, firstname, lastname) VALUES (?, ?, ?, ?, ?, ?) WHERE id = ?'
+                            'UPDATE users SET email = ?, hashed_password = ?, salt = ?, firstname = ?, lastname = ? WHERE email = ?'
                         ).run([
                             req.body.email,
                             hashedPassword,
                             salt,
                             req.body.firstname,
                             req.body.lastname,
-                            req.body.id,
+                            req.user.email,
                         ]);
                     } catch (err) {
+                        console.log(err);
                         return next(err);
                     }
 
+                    const user = {
+                        id: this.lastID,
+                        email: req.body.email,
+                        firstname: req.body.email,
+                        lastname: req.body.lastname,
+                    };
+
                     req.login(user, function (err) {
                         if (err) {
+                            console.log(err);
                             return next(err);
                         }
                         res.redirect('/einstellungen');
@@ -294,6 +302,8 @@ router.post('/change-settings', function (req, res, next) {
             );
         }
     }
+}
 });
+
 
 module.exports = router;
