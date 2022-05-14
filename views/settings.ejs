@@ -13,6 +13,10 @@
         <!-- provide header through js-->
         <%- include('./templates/header.ejs')%>
 
+        <% if (typeof(error) != "undefined" ) { %>
+            <p>Fehler: <%= error%></p>
+        <% }%>
+
     <div class="settings-box">
         <form action="/change-settings" class="settings-form" method="POST">
 

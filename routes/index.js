@@ -29,7 +29,7 @@ router.get(
 
 // GET settings page
 router.get(
-    '/settings',
+    '/einstellungen',
     // if user is not logged in, save request to /einstellungen,
     // send user to /login and after he logs in send user
     // back to /einstellungen
