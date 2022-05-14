@@ -264,8 +264,11 @@ p, a {
 .form-input {
     padding: 10px;
     margin-top: 5px;
-    border: 2px solid var(--color-8);
-    border-radius:2px;
+    border-radius: 2px;
+    background-color:var(--color-5);
+    border-radius: 2px;
+    border: 0px;
+    box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.25);
 }
 
 .loginbutton {
@@ -509,12 +512,12 @@ p.data-date {
 
 
   .settings{
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     background-image: url(/images/settingsGear.png);
     background-size: contain;
     background-repeat: no-repeat;
-    margin: auto 20px 20px auto;
+    margin: auto 15px 15px auto;
   }
 
   /*Settings*/

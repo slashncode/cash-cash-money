@@ -219,6 +219,12 @@ router.post('/registrierung', function (req, res, next) {
 });
 
 
+/* POST /einstellungen
+ *
+ * Changes data for the user logged in
+ * Form input validation.
+ *
+ */
 router.post('/change-settings', function (req, res, next) {
     if (
         req.body.username == undefined ||
@@ -228,23 +234,17 @@ router.post('/change-settings', function (req, res, next) {
         req.body.firstname == undefined ||
         req.body.lastname == undefined
     ) {
-        res.render('registrierung', {
-            error: 'Fülle alle Felder aus.',
-        });
-    } else if (req.body.username.length < 3) {
-        res.render('registrierung', {
-            error: 'Gebe mindestens 4 Zeichen für deinen Benutzernamen ein.',
-        });
-    } else if (!validator.validate(req.body.email)) {
-        res.render('registrierung', {
+      
+   if (!validator.validate(req.body.email)) {
+        res.render('einstellungen', {
             error: 'Gebe eine gültige Email ein.',
         });
     } else if (req.body.password !== req.body.passwordcheck) {
-        res.render('registrierung', {
+        res.render('einstellungen', {
             error: 'Die Passwörter müssen übereinstimmen.',
         });
     } else if (!validPassword.test(req.body.password)) {
-        res.render('registrierung', {
+        res.render('einstellungen', {
             error: 'Das Passwort muss mindestens aus jeweils 1 Groß-, Kleinbuchstaben, Sonderzeichen und Ziffern bestehen und mindestens 8 Zeichen lang sein.',
         });
     } else if (validator.validate(req.body.email)) {
@@ -253,7 +253,7 @@ router.post('/change-settings', function (req, res, next) {
             .get([`${req.body.email}`]);
 
         if (user != undefined) {
-            res.render('registrierung', {
+            res.render('einstellungen', {
                 error: 'Es gibt bereis einen Account mit dieser E-Mail.',
             });
         } else {
@@ -270,34 +270,40 @@ router.post('/change-settings', function (req, res, next) {
                     }
                     try {
                         bdb.prepare(
-                            'INSERT INTO users (username, email, hashed_password, salt, firstname, lastname) VALUES (?, ?, ?, ?, ?, ?)'
+                            'UPDATE users SET email = ?, hashed_password = ?, salt = ?, firstname = ?, lastname = ? WHERE email = ?'
                         ).run([
-                            req.body.username,
                             req.body.email,
                             hashedPassword,
                             salt,
                             req.body.firstname,
                             req.body.lastname,
+                            req.user.email,
                         ]);
                     } catch (err) {
+                        console.log(err);
                         return next(err);
                     }
 
                     const user = {
                         id: this.lastID,
                         email: req.body.email,
-                        firstname: req.body.firstname,
+                        firstname: req.body.email,
+                        lastname: req.body.lastname,
                     };
+
                     req.login(user, function (err) {
                         if (err) {
+                            console.log(err);
                             return next(err);
                         }
-                        res.redirect('/');
+                        res.redirect('/einstellungen');
                     });
                 }
             );
         }
     }
+}
 });
+
 
 module.exports = router;

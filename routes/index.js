@@ -29,13 +29,13 @@ router.get(
 
 // GET settings page
 router.get(
-    '/settings',
+    '/einstellungen',
     // if user is not logged in, save request to /einstellungen,
     // send user to /login and after he logs in send user
     // back to /einstellungen
     ensureLoggedIn('/login'),
     function (req, res, next) {
-        res.render('settings', { user: req.user });
+        res.render('einstellungen', { user: req.user });
     }
 );
 
