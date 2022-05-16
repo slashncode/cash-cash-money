@@ -10,25 +10,24 @@
 </head>
 
 <body>
-        <!-- provide header through js-->
-        <%- include('./templates/header.ejs')%>
+    <!-- provide header through js-->
+    <%- include('./templates/header.ejs')%>
 
-    <div class="login-box">
-        <form action="/login" class="login-form" method="POST">
+        <div class="login-box">
+            <form action="/login" class="login-form" method="POST">
 
-            <label for="username" class="login-label">Benutzername:</label>
-            <input type="text" id="username" name="username" class="form-input">
+                <label for="username" class="login-label">Benutzername:</label>
+                <input type="text" id="username" name="username" class="form-input">
 
-            <label for="password" class="login-label">Passwort:</label>
-            <input type="password" id="password" name="password" class="form-input">
+                <label for="password" class="login-label">Passwort:</label>
+                <input type="password" id="password" name="password" class="form-input">
 
-            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <input type="submit" value="LOG IN" class="loginbutton" />
+                <input type="submit" value="LOG IN" class="loginbutton" />
 
-        </form>
+            </form>
 
-    </div>
-    <script src="/js/script.js"></script>
+        </div>
+        <script src="/js/script.js"></script>
 </body>
 
 </html>

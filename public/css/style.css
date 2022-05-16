@@ -18,6 +18,8 @@
     --color-7: #a7daa7;
     --color-8: #6b9f6b;
     --color-9: #c4c4c4;
+    --color-10: #fe7375;
+
 }
 
 @font-face {
@@ -390,6 +392,7 @@ p.data-date {
     line-height: 38px;
     text-decoration: none;
     justify-content: center;
+    border: 0;
 }
 .app-button--green {
     background-color:var(--color-2);
@@ -397,6 +400,19 @@ p.data-date {
  
 .app-button--red {
     background-color:var(--color-3);
+}
+
+.app-button--green.app-button--pressed {
+    background-color: var(--color-7);
+}
+
+.app-button--red.app-button--pressed {
+    background-color: var(--color-10);
+}
+
+.app-button--pressed {
+    box-shadow: inset 0px 0px 10px 0px rgb(0 0 0 / 50%);
+    border: 0;
 }
 
 .calendar {
@@ -485,18 +501,17 @@ p.data-date {
     width: 80vw; /* 0 width - change this with JavaScript */
     position: fixed; /* Stay in place */
     top: 75px; /* leave space for header */
-    right: 0;
+    right: -80vw;
     background-color: var(--color-7); /* Black*/
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 30px; /* Place content 60px from the top */
     transition: 0.5s ease-in; /* 0.5 second transition effect to slide in the sidenav */
-    transform: translateX(80vw);
     display: flex;
     flex-direction: column;
   }
 
   .burgermenu--active{
-      transform:translateX(0);
+      transform:translateX(-80vw);
   }
 
   /* burger menu links */
@@ -558,6 +573,7 @@ p.data-date {
     font-weight: 400;
     font-size: 23px;
     line-height: 29px;
+    cursor: pointer;
 }
 
 .entrybar-button--positive {

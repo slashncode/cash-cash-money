@@ -1,14 +1,61 @@
 const express = require('express');
 const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
-const db = require('../db');
+const bdb = require('../db');
 const router = express.Router();
+const dayjs = require('dayjs');
+require('dayjs/locale/de');
+dayjs.locale('de');
 
 function fetchData(req, res, next) {
-    /**
-     * TODO
-     * this function will fetch user specific data (income and expenses)
-     */
+    console.log(req.query);
+    let data = {};
+    if (req.query.filterData == 'positive') {
+        data = bdb
+            .prepare(
+                'SELECT * FROM entries WHERE entry_userID = ? AND entry_value > 0 ORDER BY entry_date DESC'
+            )
+            .all(req.user.id);
+    } else if (req.query.filterData == 'negative') {
+        data = bdb
+            .prepare(
+                'SELECT * FROM entries WHERE entry_userID = ? AND entry_value <= 0 ORDER BY entry_date DESC'
+            )
+            .all(req.user.id);
+    } else {
+        data = bdb
+            .prepare(
+                'SELECT * FROM entries WHERE entry_userID = ? ORDER BY entry_date DESC'
+            )
+            .all(req.user.id);
+    }
+    next(data);
 }
+
+function addEntry(req) {
+    bdb.prepare(
+        'INSERT INTO entries (entry_name, entry_date, entry_tags, entry_value, entry_userID) VALUES (?, ?, ?, ?, ?)'
+    ).run(
+        req.body.entry_name,
+        dayjs().format('YYYY-MM-DD'),
+        '',
+        req.body.changeSign ? req.body.entry_value * -1 : req.body.entry_value,
+        req.user.id
+    );
+}
+
+/*
+Reihe (rows) von dem SELECT
+{"entry_name": "Lidl Einkauf", "entry_value": "12,23", ...}
+
+data-Objekt das wir mit den Reihen befüllen
+{
+    1: {
+        "entry_name": "Lidl Einkauf",
+        "entry_value": "12,23",
+        ...
+    }
+}
+*/
 
 // GET home page
 router.get(
@@ -21,9 +68,15 @@ router.get(
         // if user is logged in, go to next function and render app
         next();
     },
-    // fetchData,
     function (req, res, next) {
-        res.render('app', { user: req.user });
+        fetchData(req, res, function (data) {
+            res.render('app', {
+                user: req.user,
+                entries: data,
+                dayjs: dayjs,
+                buttonPressed: req.query.filterData,
+            });
+        });
     }
 );
 
@@ -38,6 +91,17 @@ router.get(
         res.render('einstellungen', { user: req.user });
     }
 );
+
+// POST add entry
+router.post('/hinzufuegen', function (req, res, next) {
+    if (req.body.entry_name != undefined && req.body.entry_value != undefined) {
+        console.log('HALLO?!');
+        addEntry(req);
+    } else {
+        console.log('FEHLER?!');
+    }
+    return res.end('done');
+});
 
 module.exports = router;
 
