@@ -22,13 +22,13 @@
                     <form action="/change-settings" class="settings-form" method="POST">
 
                         <label for="firstname">Vorname ändern:</label>
-                        <input type="text" id="firstname" name="firstname" class="form-input">
+                        <input type="text" id="firstname" name="firstname" class="form-input" placeholder="<%= user.firstname%>">
 
                         <label for="lastname">Nachname ändern:</label>
-                        <input type="text" id="lastname" name="lastname" class="form-input">
+                        <input type="text" id="lastname" name="lastname" class="form-input" placeholder="<%= user.lastname%> ">
 
                         <label for="email">Mailadresse ändern:</label>
-                        <input type="email" id="email" name="email" class="form-input">
+                        <input type="email" id="email" name="email" class="form-input" placeholder="<%= user.email%> ">
 
                         <label for="password">neues Password:</label>
                         <input type="password" id="password" name="password" class="form-input">

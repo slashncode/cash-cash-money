@@ -309,6 +309,10 @@ p, a {
 
 .data-container {
     width: 100vw;
+    height:calc(100vh - 375px);
+    overflow: auto;
+    /*border-top: 1px solid grey;*/
+    /*border-bottom: 1px solid grey;*/
 }
 
 .data-month {
@@ -497,7 +501,7 @@ p.data-date {
 /*burger menu*/
 
 .burgermenu {
-    height:calc(100vh - 80px); /* 100% Full-height */
+    height:calc(100vh - 80px); 
     width: 80vw; /* 0 width - change this with JavaScript */
     position: fixed; /* Stay in place */
     top: 75px; /* leave space for header */
@@ -508,6 +512,7 @@ p.data-date {
     transition: 0.5s ease-in; /* 0.5 second transition effect to slide in the sidenav */
     display: flex;
     flex-direction: column;
+    z-index:1000;
   }
 
   .burgermenu--active{
@@ -558,11 +563,20 @@ p.data-date {
 }
 
 .entrybar {
-    width: 230px;
+    font-family: 'SourceSansPro';
+    font-size: large;
     height: 47px;
     background:var(--color-4);
     border-radius: 2px;
     border-style: none;
+    margin: 7px 3px 7px 0px;
+}
+
+#entry_value{
+    width: calc(90vw - 106px);
+}
+#entry_name{
+    width: 90vw;
 }
 
 .entrybar-button {
@@ -574,6 +588,7 @@ p.data-date {
     font-size: 23px;
     line-height: 29px;
     cursor: pointer;
+    margin: 3px;
 }
 
 .entrybar-button--positive {
@@ -586,9 +601,14 @@ p.data-date {
 
 .entry-div {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
-    margin-top:50px;
-    margin-bottom: 15px;
+    align-content:flex-start;
+    flex-wrap: wrap;
+    position:fixed;
+    bottom: 0px;
+    background-color: var(--color-1);
+    padding-top:10px;
+   
 }
 
