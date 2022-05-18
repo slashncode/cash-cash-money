@@ -182,13 +182,15 @@ router.post('/registrierung', function (req, res, next) {
                 32,
                 'sha256',
                 function (err, hashedPassword) {
+                    let lastStmt;
                     if (err) {
                         return next(err);
                     }
                     try {
-                        bdb.prepare(
+                        const stmt = bdb.prepare(
                             'INSERT INTO users (username, email, hashed_password, salt, firstname, lastname) VALUES (?, ?, ?, ?, ?, ?)'
-                        ).run([
+                        );
+                        lastStmt = stmt.run([
                             req.body.username,
                             req.body.email,
                             hashedPassword,
@@ -201,11 +203,12 @@ router.post('/registrierung', function (req, res, next) {
                     }
 
                     const user = {
-                        id: this.lastID,
+                        id: lastStmt.lastInsertRowid,
                         email: req.body.email,
                         firstname: req.body.firstname,
                         lastname: req.body.lastname,
                     };
+
                     req.login(user, function (err) {
                         if (err) {
                             return next(err);
@@ -226,28 +229,34 @@ router.post('/registrierung', function (req, res, next) {
  *
  */
 router.post('/change-settings', function (req, res, next) {
+    console.log(req.user.id);
     if (
-        req.body.username == undefined ||
-        req.body.email == undefined ||
-        req.body.password == undefined ||
-        req.body.passwordcheck == undefined ||
-        req.body.firstname == undefined ||
-        req.body.lastname == undefined
+        req.body.email == "" &&
+        req.body.password == "" &&
+        req.body.passwordcheck == "" &&
+        req.body.firstname == "" &&
+        req.body.lastname == ""
     ) {
-      
-   if (!validator.validate(req.body.email)) {
+        res.render('einstellungen', {
+            error: 'Fülle mindestens ein Feld aus.',
+            user: req.user,});
+    } else if ( req.body.email != "" &&
+                !validator.validate(req.body.email)) {
         res.render('einstellungen', {
             error: 'Gebe eine gültige Email ein.',
-        });
-    } else if (req.body.password !== req.body.passwordcheck) {
+            user: req.user,});
+    } else if ( req.body.password != "" && 
+                req.body.password !== req.body.passwordcheck) {
         res.render('einstellungen', {
             error: 'Die Passwörter müssen übereinstimmen.',
-        });
-    } else if (!validPassword.test(req.body.password)) {
+            user: req.user,});
+    } else if ( req.body.password != "" && 
+                !validPassword.test(req.body.password)) {
         res.render('einstellungen', {
             error: 'Das Passwort muss mindestens aus jeweils 1 Groß-, Kleinbuchstaben, Sonderzeichen und Ziffern bestehen und mindestens 8 Zeichen lang sein.',
-        });
-    } else if (validator.validate(req.body.email)) {
+            user: req.user,});
+    } else if ( req.body.email != "" && 
+                validator.validate(req.body.email)) {
         let user = bdb
             .prepare('SELECT email from users WHERE email = ?')
             .get([`${req.body.email}`]);
@@ -255,8 +264,11 @@ router.post('/change-settings', function (req, res, next) {
         if (user != undefined) {
             res.render('einstellungen', {
                 error: 'Es gibt bereis einen Account mit dieser E-Mail.',
-            });
-        } else {
+                user: req.user,});
+        }
+    } else {
+        
+        if ( req.body.password != ""){
             const salt = crypto.randomBytes(16);
             crypto.pbkdf2(
                 req.body.password,
@@ -270,40 +282,61 @@ router.post('/change-settings', function (req, res, next) {
                     }
                     try {
                         bdb.prepare(
-                            'UPDATE users SET email = ?, hashed_password = ?, salt = ?, firstname = ?, lastname = ? WHERE email = ?'
+                            'UPDATE users SET hashed_password = ?, salt = ? WHERE userID = ?'
                         ).run([
-                            req.body.email,
                             hashedPassword,
                             salt,
-                            req.body.firstname,
-                            req.body.lastname,
-                            req.user.email,
+                            req.user.id,
                         ]);
                     } catch (err) {
                         console.log(err);
                         return next(err);
                     }
 
-                    const user = {
-                        id: this.lastID,
-                        email: req.body.email,
-                        firstname: req.body.email,
-                        lastname: req.body.lastname,
-                    };
-
-                    req.login(user, function (err) {
-                        if (err) {
-                            console.log(err);
-                            return next(err);
-                        }
-                        res.redirect('/einstellungen');
-                    });
                 }
-            );
+            );}
+            if ( req.body.firstname != ""){
+                bdb.prepare(
+                    'UPDATE users SET firstname = ? WHERE userID = ?'
+                ).run([
+                    req.body.firstname,
+                    req.user.id,
+                ]);
+            }
+            if ( req.body.lastname != ""){
+                bdb.prepare(
+                    'UPDATE users SET lastname = ? WHERE userID = ?'
+                ).run([
+                    req.body.lastname,
+                    req.user.id,
+                ]);
+            }
+            if ( req.body.email != ""){
+                bdb.prepare(
+                    'UPDATE users SET email = ? WHERE userID = ?'
+                ).run([
+                    req.body.email,
+                    req.user.id,
+                ]);
+            }
+
+            const user = {
+                id: req.user.id,
+                email: req.user.email,
+                firstname: req.user.firstname,
+                lastname: req.user.lastname,
+            };
+
+            req.login(user, function (err) {
+                if (err) {
+                    console.log(err);
+                    return next(err);
+                }
+                res.redirect('/einstellungen');
+            });
         }
     }
-}
-});
+);
 
 
 module.exports = router;
