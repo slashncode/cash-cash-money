@@ -230,30 +230,36 @@ router.post('/registrierung', function (req, res, next) {
  */
 router.post('/change-settings', function (req, res, next) {
 
+    let checkerr = 0;
     if (req.body.email == "" &&
         req.body.password == "" &&
         req.body.passwordcheck == "" &&
         req.body.firstname == "" &&
         req.body.lastname == ""
     ) {
+
         res.render('einstellungen', {
             error: 'Fülle mindestens ein Feld aus.',
             user: req.user,});
+            checkerr = 1;
     } else if ( req.body.email != "" &&
                 !validator.validate(req.body.email)) {
         res.render('einstellungen', {
             error: 'Gebe eine gültige Email ein.',
             user: req.user,});
+            checkerr = 1;
     } else if ( req.body.password != "" && 
                 req.body.password !== req.body.passwordcheck) {
         res.render('einstellungen', {
             error: 'Die Passwörter müssen übereinstimmen.',
             user: req.user,});
+            checkerr = 1;
     } else if ( req.body.password != "" && 
                 !validPassword.test(req.body.password)) {
         res.render('einstellungen', {
             error: 'Das Passwort muss mindestens aus jeweils 1 Groß-, Kleinbuchstaben, Sonderzeichen und Ziffern bestehen und mindestens 8 Zeichen lang sein.',
             user: req.user,});
+            checkerr = 1;
     } else if ( req.body.email != "" && 
                 validator.validate(req.body.email)) {
         let user = bdb
@@ -264,10 +270,11 @@ router.post('/change-settings', function (req, res, next) {
             res.render('einstellungen', {
                 error: 'Es gibt bereis einen Account mit dieser E-Mail.',
                 user: req.user,});
+                checkerr = 1;
         }
     } 
 
-    if ((typeof error )== 'undefined'){
+    if (checkerr == 0){
 
         const user = {
         id: req.user.id,
