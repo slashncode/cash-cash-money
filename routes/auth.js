@@ -229,9 +229,8 @@ router.post('/registrierung', function (req, res, next) {
  *
  */
 router.post('/change-settings', function (req, res, next) {
-    console.log(req.user.id);
-    if (
-        req.body.email == "" &&
+
+    if (req.body.email == "" &&
         req.body.password == "" &&
         req.body.passwordcheck == "" &&
         req.body.firstname == "" &&
@@ -266,7 +265,16 @@ router.post('/change-settings', function (req, res, next) {
                 error: 'Es gibt bereis einen Account mit dieser E-Mail.',
                 user: req.user,});
         }
-    } else {
+    } 
+
+    if ((typeof error )== 'undefined'){
+
+        const user = {
+        id: req.user.id,
+        email: req.user.email,
+        firstname: req.user.firstname,
+        lastname: req.user.lastname,
+        };
         
         if ( req.body.password != ""){
             const salt = crypto.randomBytes(16);
@@ -295,6 +303,7 @@ router.post('/change-settings', function (req, res, next) {
 
                 }
             );}
+            
             if ( req.body.firstname != ""){
                 bdb.prepare(
                     'UPDATE users SET firstname = ? WHERE userID = ?'
@@ -302,7 +311,9 @@ router.post('/change-settings', function (req, res, next) {
                     req.body.firstname,
                     req.user.id,
                 ]);
+                user.firstname = req.body.firstname;
             }
+            
             if ( req.body.lastname != ""){
                 bdb.prepare(
                     'UPDATE users SET lastname = ? WHERE userID = ?'
@@ -310,7 +321,9 @@ router.post('/change-settings', function (req, res, next) {
                     req.body.lastname,
                     req.user.id,
                 ]);
+                user.lastname = req.body.lastname;
             }
+            
             if ( req.body.email != ""){
                 bdb.prepare(
                     'UPDATE users SET email = ? WHERE userID = ?'
@@ -318,14 +331,8 @@ router.post('/change-settings', function (req, res, next) {
                     req.body.email,
                     req.user.id,
                 ]);
+                user.email = req.body.email;
             }
-
-            const user = {
-                id: req.user.id,
-                email: req.user.email,
-                firstname: req.user.firstname,
-                lastname: req.user.lastname,
-            };
 
             req.login(user, function (err) {
                 if (err) {
