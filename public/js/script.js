@@ -56,3 +56,17 @@ document
         xhr.send(JSON.stringify(body));
         location.reload();
     });
+
+document.querySelector('.calendar').addEventListener('click', function () {
+    let date1 = document.querySelector('.date1').value;
+    let date2 = document.querySelector('.date2').value;
+
+    var searchParams = new URLSearchParams(window.location.search);
+    if (date1 != '') {
+        searchParams.set('startDate', date1);
+    }
+    if (date2 != '') {
+        searchParams.set('endDate', date2);
+    }
+    window.location.search = searchParams.toString();
+});

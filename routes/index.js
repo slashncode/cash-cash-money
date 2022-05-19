@@ -28,6 +28,29 @@ function fetchData(req, res, next) {
             )
             .all(req.user.id);
     }
+
+    if (
+        req.query.startDate &&
+        req.query.startDate != '' &&
+        req.query.endDate &&
+        req.query.endDate != ''
+    ) {
+        data = data.filter((item) => {
+            return (
+                item.entry_date >= req.query.startDate &&
+                item.entry_date <= req.query.endDate
+            );
+        });
+    } else if (req.query.startDate && req.query.startDate != '') {
+        data = data.filter((item) => {
+            return item.entry_date >= req.query.startDate;
+        });
+    } else if (req.query.endDate && req.query.endDate != '') {
+        data = data.filter((item) => {
+            return item.entry_date <= req.query.endDate;
+        });
+    }
+
     next(data);
 }
 
@@ -75,6 +98,8 @@ router.get(
                 entries: data,
                 dayjs: dayjs,
                 buttonPressed: req.query.filterData,
+                startDate: req.query.startDate,
+                endDate: req.query.endDate,
             });
         });
     }
