@@ -70,7 +70,7 @@
                                                         <%= value["entry_name"]%>
                                                     </p>
                                                     <p class="data-amount">
-                                                        <%= parseFloat(value["entry_value"])%>€
+                                                        <%= String(value["entry_value"]).replace('.',',')%>€
                                                     </p>
                                                 </div>
                                         </div>
