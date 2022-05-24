@@ -130,6 +130,38 @@ router.get('/registrierung', function (req, res, next) {
     res.render('registrierung');
 });
 
+/* GET /loeschen
+ *
+ * Prompts the user to sign up.
+ *
+ */
+router.get('/loeschen', function (req, res, next) {
+    res.render('delete');
+});
+
+/* POST /delete-acc
+ *
+ * Creates new user account.
+ * Form input validation.
+ *
+ */
+router.post('/delete-acc', function (req, res, next) {
+
+    bdb.prepare(
+        'DELETE FROM entries WHERE entry_userID = ?'
+    ).run([
+        req.user.id,
+    ]);
+
+    bdb.prepare(
+        'DELETE FROM users WHERE userID = ?'
+    ).run([
+        req.user.id,
+    ]);
+
+    res.redirect('/logout');
+});
+
 /* POST /registrierung
  *
  * Creates new user account.
