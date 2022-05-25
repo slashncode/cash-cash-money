@@ -13,35 +13,91 @@
     <!-- provide header through js-->
     <%- include('./templates/header.ejs')%>
 
-        <% if (typeof(error) !="undefined" ) { %>
-            <p>Fehler: <%= error%>
-            </p>
-            <% }%>
+    <% if (typeof(error) !="undefined" ) { %>
+    <p>Fehler: <%= error%>
+    </p>
+    <% }%>
 
-                <div class="settings-box">
-                    <form action="/change-settings" class="settings-form" method="POST">
+    <div class="settings-box">
+        <form action="/change-settings" class="settings-form" method="POST">
 
-                        <label for="firstname">Vorname ändern:</label>
-                        <input type="text" id="firstname" name="firstname" class="form-input" placeholder="<%= user.firstname%>">
+            <label for="firstname">Vorname ändern:</label>
+            <input type="text" id="firstname" name="firstname" class="form-input" placeholder="<%= user.firstname%>">
 
-                        <label for="lastname">Nachname ändern:</label>
-                        <input type="text" id="lastname" name="lastname" class="form-input" placeholder="<%= user.lastname%> ">
+            <label for="lastname">Nachname ändern:</label>
+            <input type="text" id="lastname" name="lastname" class="form-input" placeholder="<%= user.lastname%> ">
 
-                        <label for="email">Mailadresse ändern:</label>
-                        <input type="email" id="email" name="email" class="form-input" placeholder="<%= user.email%> ">
+            <label for="email">Mailadresse ändern:</label>
+            <input type="email" id="email" name="email" class="form-input" placeholder="<%= user.email%> ">
 
-                        <label for="password">neues Password:</label>
-                        <input type="password" id="password" name="password" class="form-input">
+            <label for="password">neues Password:</label>
+            <input type="password" id="password" name="password" class="form-input">
 
-                        <label for="passwordcheck"> neues Password wiederholen:</label>
-                        <input type="password" id="passwordcheck" name="passwordcheck" class="form-input">
+            <label for="passwordcheck"> neues Password wiederholen:</label>
+            <input type="password" id="passwordcheck" name="passwordcheck" class="form-input">
 
-                        <input type="submit" value="Speichern" class="loginbutton" />
+            <input type="submit" value="Speichern" class="loginbutton" />
 
-                    </form>
-                    <a href="/loeschen" class="button-delete">Account löschen</a>
-                </div>
-                <script src="/js/script.js"></script>
+        </form>
+        <% if (userrole != "admin") { %>
+        <a href="/loeschen" class="button-delete">Account löschen</a>
+        <% } %>
+        <% if (userrole == "admin") { %>
+        <% if (typeof(allUsers) != "undefined" ) { %>
+        <div class="delete-table-container">
+            <table class="delete-table">
+                <tr>
+                    <td>User ID</td>
+                    <td>User name</td>
+                    <td>E-Mail</td>
+                    <td>First name</td>
+                    <td>Last name</td>
+                    <td>User role</td>
+                    <td>Delete</td>
+                </tr>
+                <% for(var i=0; i < allUsers.length; i++) { %>
+                <tr>
+                    <td><%= allUsers[i].userID %></td>
+                    <td><%= allUsers[i].username %></td>
+                    <td><%= allUsers[i].email %></td>
+                    <td><%= allUsers[i].firstname %></td>
+                    <td><%= allUsers[i].lastname %></td>
+                    <td><%= allUsers[i].userrole %></td>
+                    <% if (allUsers[i].userrole != "admin") { %>
+                    <td class="user-delete" data-delete="<%= allUsers[i].userID %>">Delete</td>
+                    <% } %>
+                </tr>
+                <% } %>
+            </table>
+        </div>
+        <% } %>
+        <script>
+            document.querySelectorAll('td[data-delete]').forEach((e) => {
+                e.addEventListener('click', function () {
+                    let userIdToDelete = e.dataset.delete;
+                    if (confirm(`Bist du dir sicher, dass du den Nutzer mit der User ID ${userIdToDelete} löschen willst?`)) {
+                        // Delete user!
+                        let body = {
+                            admindelete: true,
+                            deleteUserId: userIdToDelete,
+                        };
+
+                        let xhr = new XMLHttpRequest();
+                        xhr.onload = success;
+                        xhr.onerror = error;
+                        xhr.open('POST', 'http://localhost:3000/delete-acc', true);
+                        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+                        xhr.send(JSON.stringify(body));
+                        location.reload();
+                    } else {
+                        // Do nothing!
+                    }
+                })
+            })
+        </script>
+        <% } %>
+    </div>
+    <script src="/js/script.js"></script>
 </body>
 
 </html>

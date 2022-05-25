@@ -78,6 +78,7 @@ passport.serializeUser(function (user, cb) {
             email: user.email,
             firstname: user.firstname,
             lastname: user.lastname,
+            userrole: user.userrole,
         });
     });
 });
@@ -146,20 +147,25 @@ router.get('/loeschen', function (req, res, next) {
  *
  */
 router.post('/delete-acc', function (req, res, next) {
+    if (req.body.admindelete == true) {
+        bdb.prepare('DELETE FROM entries WHERE entry_userID = ?').run([
+            req.body.deleteUserId,
+        ]);
 
-    bdb.prepare(
-        'DELETE FROM entries WHERE entry_userID = ?'
-    ).run([
-        req.user.id,
-    ]);
+        bdb.prepare('DELETE FROM users WHERE userID = ?').run([
+            req.body.deleteUserId,
+        ]);
 
-    bdb.prepare(
-        'DELETE FROM users WHERE userID = ?'
-    ).run([
-        req.user.id,
-    ]);
+        console.log('ADMIN DELETE!!');
+    } else {
+        bdb.prepare('DELETE FROM entries WHERE entry_userID = ?').run([
+            req.body.id,
+        ]);
 
-    res.redirect('/logout');
+        bdb.prepare('DELETE FROM users WHERE userID = ?').run([req.user.id]);
+
+        res.redirect('/logout');
+    }
 });
 
 /* POST /registrierung
@@ -220,7 +226,7 @@ router.post('/registrierung', function (req, res, next) {
                     }
                     try {
                         const stmt = bdb.prepare(
-                            'INSERT INTO users (username, email, hashed_password, salt, firstname, lastname) VALUES (?, ?, ?, ?, ?, ?)'
+                            'INSERT INTO users (username, email, hashed_password, salt, firstname, lastname, userrole) VALUES (?, ?, ?, ?, ?, ?, ?)'
                         );
                         lastStmt = stmt.run([
                             req.body.username,
@@ -229,6 +235,7 @@ router.post('/registrierung', function (req, res, next) {
                             salt,
                             req.body.firstname,
                             req.body.lastname,
+                            'user',
                         ]);
                     } catch (err) {
                         return next(err);
@@ -239,6 +246,7 @@ router.post('/registrierung', function (req, res, next) {
                         email: req.body.email,
                         firstname: req.body.firstname,
                         lastname: req.body.lastname,
+                        userrole: 'user',
                     };
 
                     req.login(user, function (err) {
@@ -253,7 +261,6 @@ router.post('/registrierung', function (req, res, next) {
     }
 });
 
-
 /* POST /einstellungen
  *
  * Changes data for the user logged in
@@ -261,39 +268,44 @@ router.post('/registrierung', function (req, res, next) {
  *
  */
 router.post('/change-settings', function (req, res, next) {
-
     let checkerr = 0;
-    if (req.body.email == "" &&
-        req.body.password == "" &&
-        req.body.passwordcheck == "" &&
-        req.body.firstname == "" &&
-        req.body.lastname == ""
+    if (
+        req.body.email == '' &&
+        req.body.password == '' &&
+        req.body.passwordcheck == '' &&
+        req.body.firstname == '' &&
+        req.body.lastname == ''
     ) {
-
         res.render('einstellungen', {
             error: 'Fülle mindestens ein Feld aus.',
-            user: req.user,});
-            checkerr = 1;
-    } else if ( req.body.email != "" &&
-                !validator.validate(req.body.email)) {
+            user: req.user,
+        });
+        checkerr = 1;
+    } else if (req.body.email != '' && !validator.validate(req.body.email)) {
         res.render('einstellungen', {
             error: 'Gebe eine gültige Email ein.',
-            user: req.user,});
-            checkerr = 1;
-    } else if ( req.body.password != "" && 
-                req.body.password !== req.body.passwordcheck) {
+            user: req.user,
+        });
+        checkerr = 1;
+    } else if (
+        req.body.password != '' &&
+        req.body.password !== req.body.passwordcheck
+    ) {
         res.render('einstellungen', {
             error: 'Die Passwörter müssen übereinstimmen.',
-            user: req.user,});
-            checkerr = 1;
-    } else if ( req.body.password != "" && 
-                !validPassword.test(req.body.password)) {
+            user: req.user,
+        });
+        checkerr = 1;
+    } else if (
+        req.body.password != '' &&
+        !validPassword.test(req.body.password)
+    ) {
         res.render('einstellungen', {
             error: 'Das Passwort muss mindestens aus jeweils 1 Groß-, Kleinbuchstaben, Sonderzeichen und Ziffern bestehen und mindestens 8 Zeichen lang sein.',
-            user: req.user,});
-            checkerr = 1;
-    } else if ( req.body.email != "" && 
-                validator.validate(req.body.email)) {
+            user: req.user,
+        });
+        checkerr = 1;
+    } else if (req.body.email != '' && validator.validate(req.body.email)) {
         let user = bdb
             .prepare('SELECT email from users WHERE email = ?')
             .get([`${req.body.email}`]);
@@ -301,21 +313,22 @@ router.post('/change-settings', function (req, res, next) {
         if (user != undefined) {
             res.render('einstellungen', {
                 error: 'Es gibt bereis einen Account mit dieser E-Mail.',
-                user: req.user,});
-                checkerr = 1;
+                user: req.user,
+            });
+            checkerr = 1;
         }
-    } 
+    }
 
-    if (checkerr == 0){
-
+    if (checkerr == 0) {
         const user = {
-        id: req.user.id,
-        email: req.user.email,
-        firstname: req.user.firstname,
-        lastname: req.user.lastname,
+            id: req.user.id,
+            email: req.user.email,
+            firstname: req.user.firstname,
+            lastname: req.user.lastname,
+            userrole: 'user',
         };
-        
-        if ( req.body.password != ""){
+
+        if (req.body.password != '') {
             const salt = crypto.randomBytes(16);
             crypto.pbkdf2(
                 req.body.password,
@@ -330,59 +343,47 @@ router.post('/change-settings', function (req, res, next) {
                     try {
                         bdb.prepare(
                             'UPDATE users SET hashed_password = ?, salt = ? WHERE userID = ?'
-                        ).run([
-                            hashedPassword,
-                            salt,
-                            req.user.id,
-                        ]);
+                        ).run([hashedPassword, salt, req.user.id]);
                     } catch (err) {
                         console.log(err);
                         return next(err);
                     }
-
                 }
-            );}
-            
-            if ( req.body.firstname != ""){
-                bdb.prepare(
-                    'UPDATE users SET firstname = ? WHERE userID = ?'
-                ).run([
-                    req.body.firstname,
-                    req.user.id,
-                ]);
-                user.firstname = req.body.firstname;
-            }
-            
-            if ( req.body.lastname != ""){
-                bdb.prepare(
-                    'UPDATE users SET lastname = ? WHERE userID = ?'
-                ).run([
-                    req.body.lastname,
-                    req.user.id,
-                ]);
-                user.lastname = req.body.lastname;
-            }
-            
-            if ( req.body.email != ""){
-                bdb.prepare(
-                    'UPDATE users SET email = ? WHERE userID = ?'
-                ).run([
-                    req.body.email,
-                    req.user.id,
-                ]);
-                user.email = req.body.email;
-            }
-
-            req.login(user, function (err) {
-                if (err) {
-                    console.log(err);
-                    return next(err);
-                }
-                res.redirect('/einstellungen');
-            });
+            );
         }
-    }
-);
 
+        if (req.body.firstname != '') {
+            bdb.prepare('UPDATE users SET firstname = ? WHERE userID = ?').run([
+                req.body.firstname,
+                req.user.id,
+            ]);
+            user.firstname = req.body.firstname;
+        }
+
+        if (req.body.lastname != '') {
+            bdb.prepare('UPDATE users SET lastname = ? WHERE userID = ?').run([
+                req.body.lastname,
+                req.user.id,
+            ]);
+            user.lastname = req.body.lastname;
+        }
+
+        if (req.body.email != '') {
+            bdb.prepare('UPDATE users SET email = ? WHERE userID = ?').run([
+                req.body.email,
+                req.user.id,
+            ]);
+            user.email = req.body.email;
+        }
+
+        req.login(user, function (err) {
+            if (err) {
+                console.log(err);
+                return next(err);
+            }
+            res.redirect('/einstellungen');
+        });
+    }
+});
 
 module.exports = router;

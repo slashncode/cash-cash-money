@@ -66,6 +66,11 @@ function addEntry(req) {
     );
 }
 
+function fetchAllUsers(req, res, next) {
+    let data = bdb.prepare('SELECT * from users').all();
+    next(data);
+}
+
 /*
 Reihe (rows) von dem SELECT
 {"entry_name": "Lidl Einkauf", "entry_value": "12,23", ...}
@@ -113,7 +118,20 @@ router.get(
     // back to /einstellungen
     ensureLoggedIn('/login'),
     function (req, res, next) {
-        res.render('einstellungen', { user: req.user });
+        if (req.user.userrole == 'admin') {
+            fetchAllUsers(req, res, function (data) {
+                res.render('einstellungen', {
+                    user: req.user,
+                    userrole: req.user.userrole,
+                    allUsers: data,
+                });
+            });
+        } else {
+            res.render('einstellungen', {
+                user: req.user,
+                userrole: req.user.userrole,
+            });
+        }
     }
 );
 

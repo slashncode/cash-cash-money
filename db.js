@@ -17,7 +17,8 @@ bdb.prepare(
       hashed_password BLOB, \
       salt BLOB, \
       firstname TEXT, \
-      lastname TEXT \
+      lastname TEXT, \
+      userrole TEXT \
       )'
 ).run();
 
@@ -41,7 +42,7 @@ bdb.prepare(
 // with the given salt and is 32 characters long
 const salt = crypto.randomBytes(16);
 bdb.prepare(
-    'INSERT OR IGNORE INTO users (username, email, hashed_password, salt, firstname, lastname) VALUES (?, ?, ?, ?, ?, ?)'
+    'INSERT OR IGNORE INTO users (username, email, hashed_password, salt, firstname, lastname, userrole) VALUES (?, ?, ?, ?, ?, ?, ?)'
 ).run([
     'admin',
     'admin@cashcashmoney.de',
@@ -49,6 +50,19 @@ bdb.prepare(
     salt,
     'Admin',
     'Mr. CashCashMoney',
+    'admin',
+]);
+
+bdb.prepare(
+    'INSERT OR IGNORE INTO users (username, email, hashed_password, salt, firstname, lastname, userrole) VALUES (?, ?, ?, ?, ?, ?, ?)'
+).run([
+    'test',
+    'test@cashcashmoney.de',
+    crypto.pbkdf2Sync('root', salt, 310000, 32, 'sha256'),
+    salt,
+    'Test',
+    'Tester',
+    'user',
 ]);
 
 function addEntry(
