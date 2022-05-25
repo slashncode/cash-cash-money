@@ -188,19 +188,21 @@ router.post('/registrierung', function (req, res, next) {
         });
     } else if (req.body.username.length < 3) {
         res.render('registrierung', {
-            error: 'Gebe mindestens 4 Zeichen für deinen Benutzernamen ein.',
+            usernameError:
+                'Gebe mindestens 4 Zeichen für deinen Benutzernamen ein.',
         });
     } else if (!validator.validate(req.body.email)) {
         res.render('registrierung', {
-            error: 'Gebe eine gültige Email ein.',
+            emailError: 'Gebe eine gültige Email ein.',
         });
     } else if (req.body.password !== req.body.passwordcheck) {
         res.render('registrierung', {
-            error: 'Die Passwörter müssen übereinstimmen.',
+            passwordError: 'Die Passwörter müssen übereinstimmen.',
         });
     } else if (!validPassword.test(req.body.password)) {
         res.render('registrierung', {
-            error: 'Das Passwort muss mindestens aus jeweils 1 Groß-, Kleinbuchstaben, Sonderzeichen und Ziffern bestehen und mindestens 8 Zeichen lang sein.',
+            passwordError:
+                'Das Passwort muss mindestens aus jeweils 1 Groß-, Kleinbuchstaben, Sonderzeichen und Ziffern bestehen und mindestens 8 Zeichen lang sein.',
         });
     } else if (validator.validate(req.body.email)) {
         let user = bdb
