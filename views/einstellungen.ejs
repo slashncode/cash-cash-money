@@ -65,6 +65,8 @@
                     <td><%= allUsers[i].userrole %></td>
                     <% if (allUsers[i].userrole != "admin") { %>
                     <td class="user-delete" data-delete="<%= allUsers[i].userID %>">Delete</td>
+                    <% } else { %>
+                    <td></td>
                     <% } %>
                 </tr>
                 <% } %>
