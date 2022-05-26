@@ -36,7 +36,8 @@
             <label for="passwordcheck"> neues Password wiederholen:</label>
             <input type="password" id="passwordcheck" name="passwordcheck" class="form-input">
 
-            <input type="submit" value="Speichern" class="loginbutton" <%= userrole != "admin" ? ' disabled' : '' %> />
+            <input type="submit" value="Speichern" class="loginbutton"
+                <%= userrole == "testuser" ? ' disabled' : '' %> />
 
         </form>
         <% if (userrole != "admin" && userrole != "testuser") { %>
