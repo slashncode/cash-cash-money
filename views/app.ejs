@@ -13,83 +13,84 @@
     <%- include('./templates/header.ejs')%>
 
 
-        <div class="sophie-branch">
-            <div class="app-button-box">
-                <form action="/" method="get">
-                    <% if (buttonPressed=="positive" ) { %>
-                        <input type="text" value="" id="filterData" name="filterData" hidden>
-                        <button type="submit" class="app-button app-button--green app-button--pressed">Eingaben</button>
-                        <% } else { %>
-                            <input type="text" value="positive" id="filterData" name="filterData" hidden>
-                            <button type="submit" class="app-button app-button--green">Eingaben</button>
-                            <% } %>
-                </form>
-                <form action="/" method="get">
-                    <% if (buttonPressed=="negative" ) { %>
-                        <input type="text" value="" id="filterData" name="filterData" hidden>
-                        <button type="submit" class="app-button app-button--red app-button--pressed">Ausgaben</button>
-                        <% } else { %>
-                            <input type="text" value="negative" id="filterData" name="filterData" hidden>
-                            <button type="submit" class="app-button app-button--red">Ausgaben</button>
-                            <% } %>
-                </form>
-            </div>
-
-            <div class="app-top">
-                <div class="calendar">
-                    <img src="/images/calendar.png" alt="Kalender">
-                </div>
-                <input type="date" <%=startDate ? `value=${startDate} ` : '' %>class="app-button-months date1">
-                <input type="date" <%=endDate ? `value=${endDate} ` : '' %>class="app-button-months date2">
-            </div>
+    <div class="sophie-branch">
+        <div class="app-button-box">
+            <form action="/" method="get">
+                <% if (buttonPressed=="positive" ) { %>
+                <input type="text" value="" id="filterData" name="filterData" hidden>
+                <button type="submit" class="app-button app-button--green app-button--pressed">Eingaben</button>
+                <% } else { %>
+                <input type="text" value="positive" id="filterData" name="filterData" hidden>
+                <button type="submit" class="app-button app-button--green">Eingaben</button>
+                <% } %>
+            </form>
+            <form action="/" method="get">
+                <% if (buttonPressed=="negative" ) { %>
+                <input type="text" value="" id="filterData" name="filterData" hidden>
+                <button type="submit" class="app-button app-button--red app-button--pressed">Ausgaben</button>
+                <% } else { %>
+                <input type="text" value="negative" id="filterData" name="filterData" hidden>
+                <button type="submit" class="app-button app-button--red">Ausgaben</button>
+                <% } %>
+            </form>
         </div>
 
+        <div class="app-top">
+            <div class="calendar">
+                <img src="/images/calendar.png" alt="Kalender">
+            </div>
+            <input type="date" <%=startDate ? `value=${startDate} ` : '' %>class="app-button-months date1">
+            <input type="date" <%=endDate ? `value=${endDate} ` : '' %>class="app-button-months date2">
+        </div>
+    </div>
 
 
-        <div class="data-container">
-            <% if (typeof(entries) !="undefined" ) { %>
-                <% let lastMonth="" ; for (const[key, value] of Object.entries(entries)) { let
+
+    <div class="data-container">
+        <% if (typeof(entries) !="undefined" ) { %>
+        <% let lastMonth="" ; for (const[key, value] of Object.entries(entries)) { let
                     date=dayjs(value["entry_date"]) %>
-                    <% if (date.format('MMMM') !=lastMonth) { %>
-                        <div class="data-month">
-                            <h2>
-                                <%= date.format('MMMM') %>
-                            </h2>
-                        </div>
-                        <% } %>
-                            <% if (value["entry_value"]> 0) { %>
-                                <div class="data-entry data-entry--positive">
-                                    <% } else { %>
-                                        <div class="data-entry data-entry--negative">
-                                            <% } %>
-                                                <p class="data-date">
-                                                    <%= date.format('DD.MM.YYYY')%>
-                                                </p>
-                                                <div class="data-entry-inner">
-                                                    <p class="data-name">
-                                                        <%= value["entry_name"]%>
-                                                    </p>
-                                                    <p class="data-amount">
-                                                        <%= String(value["entry_value"]).replace('.',',')%>€
-                                                    </p>
-                                                </div>
-                                        </div>
-                                        <% lastMonth=date.format('MMMM'); } %>
-                                            </p>
-                                            <% }%>
-                                </div>
+        <% if (date.format('MMMM') !=lastMonth) { %>
+        <div class="data-month">
+            <h2>
+                <%= date.format('MMMM') %>
+            </h2>
+        </div>
+        <% } %>
+        <% if (value["entry_value"]> 0) { %>
+        <div class="data-entry data-entry--positive">
+            <% } else { %>
+            <div class="data-entry data-entry--negative">
+                <% } %>
+                <p class="data-date">
+                    <%= date.format('DD.MM.YYYY')%>
+                </p>
+                <div class="data-entry-inner">
+                    <p class="data-name">
+                        <%= value["entry_name"]%>
+                    </p>
+                    <p class="data-amount">
+                        <%= String(value["entry_value"]).replace('.',',')%>€
+                    </p>
+                </div>
+            </div>
+            <% lastMonth=date.format('MMMM'); } %>
+            </p>
+            <% }%>
+        </div>
 
-                                <div class="entry-div">
-                                    <!-- <label for="entry_name">Zweck</label> -->
-                                    <input type="text" class="entrybar" name="entry_name" id="entry_name"
-                                        placeholder="Zweck">
-                                    <!-- <label for="entry_value">Wert</label> -->
-                                    <input type="number" step="0.01" name="entry_value" id="entry_value"
-                                        onchange="setDecimal(this)" class="entrybar" placeholder="0,00€">
-                                    <button class="entrybar-button entrybar-button--positive">+</button>
-                                    <button class="entrybar-button entrybar-button--negative">-</button>
-                                </div>
-                                <script src="/js/script.js"></script>
+        <div class="entry-div">
+            <!-- <label for="entry_name">Zweck</label> -->
+            <input type="text" class="entrybar" name="entry_name" id="entry_name" placeholder="Zweck">
+            <!-- <label for="entry_value">Wert</label> -->
+            <input type="number" step="0.01" name="entry_value" id="entry_value" onchange="setDecimal(this)"
+                class="entrybar" placeholder="0,00€">
+            <button class="entrybar-button entrybar-button--positive"
+                <%= user.userrole == "testuser" ? ' disabled' : ''%>>+</button>
+            <button class="entrybar-button entrybar-button--negative"
+                <%= user.userrole == "testuser" ? ' disabled' : ''%>>-</button>
+        </div>
+        <script src="/js/script.js"></script>
 </body>
 
 </html>

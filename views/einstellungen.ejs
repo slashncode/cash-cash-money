@@ -36,10 +36,10 @@
             <label for="passwordcheck"> neues Password wiederholen:</label>
             <input type="password" id="passwordcheck" name="passwordcheck" class="form-input">
 
-            <input type="submit" value="Speichern" class="loginbutton" />
+            <input type="submit" value="Speichern" class="loginbutton" <%= userrole != "admin" ? ' disabled' : '' %> />
 
         </form>
-        <% if (userrole != "admin") { %>
+        <% if (userrole != "admin" && userrole != "testuser") { %>
         <a href="/loeschen" class="button-delete">Account löschen</a>
         <% } %>
         <% if (userrole == "admin") { %>
@@ -63,7 +63,7 @@
                     <td><%= allUsers[i].firstname %></td>
                     <td><%= allUsers[i].lastname %></td>
                     <td><%= allUsers[i].userrole %></td>
-                    <% if (allUsers[i].userrole != "admin") { %>
+                    <% if (allUsers[i].userrole != "admin" && allUsers[i].userrole != "testuser") { %>
                     <td class="user-delete" data-delete="<%= allUsers[i].userID %>">Delete</td>
                     <% } else { %>
                     <td></td>

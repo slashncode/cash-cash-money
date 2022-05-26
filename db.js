@@ -58,11 +58,11 @@ bdb.prepare(
 ).run([
     'test',
     'test@cashcashmoney.de',
-    crypto.pbkdf2Sync('root', salt, 310000, 32, 'sha256'),
+    crypto.pbkdf2Sync('test', salt, 310000, 32, 'sha256'),
     salt,
-    'Test',
     'Tester',
-    'user',
+    'McTesty',
+    'testuser',
 ]);
 
 function addEntry(
@@ -89,7 +89,11 @@ addEntry(1, 'Lidl Einkauf', '2022-05-01', 'Einkauf', '-13.50', 1);
 addEntry(2, 'Eventim Rückzahlung', '2022-05-01', 'Konzerte', '13.98', 1);
 addEntry(3, 'Rewe Einkauf', '2022-05-02', 'Einkauf', '-15', 1);
 addEntry(4, 'Gehalt', '2022-05-28', 'Gehalt', '1400', 1);
-addEntry(5, 'Gehalt', '2022-06-28', 'Gehalt', '1500', 1);
-addEntry(6, 'Gehalt', '2022-02-28', 'Gehalt', '1500', 1);
+addEntry(5, 'Gehalt', '2022-04-28', 'Gehalt', '1400', 1);
+addEntry(6, 'Lidl Einkauf', '2022-05-01', 'Einkauf', '-13.50', 2);
+addEntry(7, 'Eventim Rückzahlung', '2022-05-01', 'Konzerte', '13.98', 2);
+addEntry(8, 'Rewe Einkauf', '2022-05-02', 'Einkauf', '-15', 2);
+addEntry(9, 'Gehalt', '2022-05-28', 'Gehalt', '1400', 2);
+addEntry(10, 'Gehalt', '2022-04-28', 'Gehalt', '1400', 2);
 
 module.exports = bdb;
