@@ -71,7 +71,7 @@
                         <%= value["entry_name"]%>
                     </p>
                     <p class="data-amount">
-                        <%= String(value["entry_value"]).replace('.',',')%>€
+                        <%= String(Math.round(value["entry_value"] * 100) / 100).replace('.',',')%>€
                         <% overall = overall + value["entry_value"] %>
                     </p>
                 </div>
@@ -89,7 +89,7 @@
                             Insgesamt
                         </p>
                         <p class="data-amount">
-                            <%= String(overall).replace('.',',')%>€
+                            <%= String(Math.round(overall * 100) / 100).replace('.',',')%>€
                         </p>
                     </div>
                 </div>
