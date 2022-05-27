@@ -146,16 +146,38 @@ router.post('/hinzufuegen', function (req, res, next) {
     return res.end('done');
 });
 
+// POST add entry
+router.post('/aktualisieren', function (req, res, next) {
+    console.log(req.body.entry_update_date);
+    if (
+        req.body.entry_update_date != undefined &&
+        req.body.entry_update_date != 'Invalid Date' &&
+        req.body.entry_update_date != ''
+    ) {
+        bdb.prepare('UPDATE entries SET entry_date = ? WHERE entryID = ?').run(
+            dayjs(req.body.entry_update_date).format('YYYY-MM-DD'),
+            req.body.entry_update_id
+        );
+    }
+    if (req.body.entry_update_name != undefined) {
+        bdb.prepare('UPDATE entries SET entry_name = ? WHERE entryID = ?').run(
+            req.body.entry_update_name,
+            req.body.entry_update_id
+        );
+    }
+    if (req.body.entry_update_value != undefined) {
+        bdb.prepare('UPDATE entries SET entry_value = ? WHERE entryID = ?').run(
+            req.body.entry_update_value,
+            req.body.entry_update_id
+        );
+    }
+    if (req.body.entry_update_tags != undefined) {
+        bdb.prepare('UPDATE entries SET entry_tags = ? WHERE entryID = ?').run(
+            req.body.entry_update_tags,
+            req.body.entry_update_id
+        );
+    }
+    return res.redirect('/');
+});
+
 module.exports = router;
-
-router.get('/app', function (req, res) {
-    res.render('app');
-});
-
-router.get('/eingaben', function (req, res) {
-    res.render('eingaben');
-});
-
-router.get('/ausgaben', function (req, res) {
-    res.render('ausgaben');
-});

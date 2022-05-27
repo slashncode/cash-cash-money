@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cash Cash Money</title>
     <link href="/css/style.css" rel="stylesheet">
+    <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
+    <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
+    <script src="https://unpkg.com/dayjs@1.8.21/locale/de.js"></script>
 </head>
 
 <body class="app">
@@ -59,30 +62,29 @@
         </div>
         <% } %>
         <% if (value["entry_value"]> 0) { %>
-        <div class="data-entry data-entry--positive">
+        <div class="data-entry data-entry--positive" data-id="<%= value["entryID"] %>">
             <% } else { %>
-            <div class="data-entry data-entry--negative">
+            <div class="data-entry data-entry--negative" data-id="<%= value["entryID"] %>">
                 <% } %>
-                <p class="data-date">
-                    <%= date.format('DD.MM.YYYY')%>
-                </p>
+                <div class="data-entry-date-tags">
+                    <p class="data-date" data-date="<%= date.format('MM.DD.YYYY') %>"><%= date.format('DD.MM.YYYY')%>
+                    </p>
+                    <p class="data-tags"><%= value["entry_tags"] %></p>
+                </div>
                 <div class="data-entry-inner">
-                    <p class="data-name">
-                        <%= value["entry_name"]%>
-                    </p>
-                    <p class="data-amount">
-                        <%= String(Math.round(value["entry_value"] * 100) / 100).replace('.',',')%>€
-                        <% overall = overall + value["entry_value"] %>
-                    </p>
+                    <p class="data-name"><%= value["entry_name"]%></p>
+                    <% let thisEntryValue = String(Math.round(value["entry_value"] * 100) / 100).replace('.',',') %>
+                    <p class="data-amount"><%= thisEntryValue%>€</p>
+                    <% overall = overall + value["entry_value"] %>
                 </div>
             </div>
             <% lastMonth=date.format('MMMM'); } %>
             </p>
             <% }%>
             <% if (overall> 0) { %>
-            <div class="data-entry data-entry--positive">
+            <div class="data-entry data-entry--positive data-entry--overall">
                 <% } else {%>
-                <div class="data-entry data-entry--negative">
+                <div class="data-entry data-entry--negative data-entry--overall">
                     <% } %>
                     <div class="data-entry-inner">
                         <p class="data-name">
@@ -105,6 +107,42 @@
                     <%= user.userrole == "testuser" ? ' disabled' : ''%>>+</button>
                 <button class="entrybar-button entrybar-button--negative"
                     <%= user.userrole == "testuser" ? ' disabled' : ''%>>-</button>
+            </div>
+
+            <div class="modal micromodal-slide" id="modal" aria-hidden="true">
+                <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+                    <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+                        <header class="modal__header">
+                            <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
+                        </header>
+                        <main class="modal__content" id="modal-1-content">
+                            <form action="/aktualisieren" method="post" id="update-data">
+                                <input id="entry_update_id" name="entry_update_id" hidden value>
+                                <div>
+                                    <label for="entry_update_date">Datum:</label><input id="entry_update_date"
+                                        name="entry_update_date" type="date">
+                                </div>
+                                <div>
+                                    <label for="entry_update_name">Zweck:</label><input id="entry_update_name"
+                                        name="entry_update_name" type="text">
+                                </div>
+                                <div>
+                                    <label for="entry_update_value">Wert:</label><input id="entry_update_value"
+                                        name="entry_update_value" type="number" step="0.01">
+                                </div>
+                                <div>
+                                    <label for="entry_update_tags">Kategorie:</label><input id="entry_update_tags"
+                                        name="entry_update_tags" type="text">
+                                </div>
+                            </form>
+                        </main>
+                        <footer class="modal__footer">
+                            <button class="modal__btn" data-micromodal-close
+                                aria-label="Close this dialog window">Schließen</button>
+                            <button class="modal__btn modal__btn-primary" form="update-data">Aktualisieren</button>
+                        </footer>
+                    </div>
+                </div>
             </div>
             <script src="/js/script.js"></script>
 </body>
