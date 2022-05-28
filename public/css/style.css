@@ -832,6 +832,11 @@ h3 {
     color: #000000;
 }
 
+.modal__btn-primary[disabled] {
+    background-color: #bbbbbb;
+    cursor: not-allowed;
+}
+
 /**************************\
 Demo Animation Style
 \**************************/
