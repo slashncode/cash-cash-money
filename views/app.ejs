@@ -73,8 +73,8 @@
                 </div>
                 <div class="data-entry-inner">
                     <p class="data-name"><%= value["entry_name"]%></p>
-                    <% let thisEntryValue = String(Math.round(value["entry_value"] * 100) / 100).replace('.',',') %>
-                    <p class="data-amount"><%= thisEntryValue%>€</p>
+                    <% let thisEntryValue = String((Math.round(value["entry_value"] * 100) / 100).toFixed(2)).replace('.',',') %>
+                    <p class="data-amount"><%= thisEntryValue %>€</p>
                     <% overall = overall + value["entry_value"] %>
                 </div>
             </div>
