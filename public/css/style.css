@@ -309,6 +309,7 @@ a {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+    max-width: 230px;
 }
 
 .app {

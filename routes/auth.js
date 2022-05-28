@@ -159,7 +159,7 @@ router.post('/delete-acc', function (req, res, next) {
         console.log('ADMIN DELETE!!');
     } else {
         bdb.prepare('DELETE FROM entries WHERE entry_userID = ?').run([
-            req.body.id,
+            req.user.id,
         ]);
 
         bdb.prepare('DELETE FROM users WHERE userID = ?').run([req.user.id]);
